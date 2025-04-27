@@ -3,100 +3,238 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedidos Caribe - Entrega2</title>
+  <title>Entrega2 - Conectando talento logístico y envíos rápidos</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Helvetica Neue', sans-serif;
       margin: 0;
-      padding: 0;
+      background-color: #f7f9fc;
+      color: #333;
     }
     header {
-      background-color: #007BFF;
+      background: linear-gradient(90deg, #002F6C, #FF6600);
+      padding: 20px;
       color: white;
       text-align: center;
-      padding: 50px;
     }
-    header h1 {
-      font-size: 2.5em;
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #ffffff;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    header p {
-      font-size: 1.2em;
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #002F6C;
+      font-weight: bold;
     }
-    header button {
-      padding: 15px 30px;
-      font-size: 1.2em;
+    .hero {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: #e3f2fd;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .hero button {
+      background-color: #FF6600;
       color: white;
-      background-color: #28a745;
       border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 40px 20px;
+    }
+    .feature {
+      background: white;
+      margin: 15px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      flex: 1 1 300px;
+      text-align: center;
+    }
+    .feature h3 {
+      color: #FF6600;
+      margin-bottom: 15px;
+    }
+    .riders-section {
+      background-color: #ffffff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .riders-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .rider-card {
+      background-color: #f1f1f1;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 10px;
+      width: 220px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .rider-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .rider-card h4 {
+      margin: 5px 0;
+      color: #002F6C;
+    }
+    .companies-section {
+      background-color: #e3f2fd;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .company-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+    .company-list li {
+      background: white;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .cta {
+      text-align: center;
+      background: #002F6C;
+      color: white;
+      padding: 40px 20px;
+    }
+    .cta button {
+      background-color: #FF6600;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
       margin-top: 20px;
     }
-    header button:hover {
-      background-color: #218838;
-    }
     footer {
+      background-color: #333;
+      color: #ccc;
       text-align: center;
       padding: 20px;
-      background-color: #333;
-      color: white;
+      font-size: 0.9rem;
     }
   </style>
 </head>
+
 <body>
-  <!-- Contenido de la página -->
-  <header>
-    <h1>Pedidos Caribe - 10 vacantes</h1>
-    <p>¿Listo para ser parte de Entrega2?</p>
-    <p>Regístrate ahora y accede a cientos de oportunidades de trabajo o riders disponibles.</p>
-    <button>Comienza Gratis</button>
-  </header>
 
-  <footer>
-    <p>© 2025 Entrega2 - Todos los derechos reservados.</p>
-  </footer>
+<header>
+  <h1>Entrega2</h1>
+  <p>Tu Marketplace para Reclutamiento Logístico y Envíos en Moto</p>
+</header>
 
-  <!-- Importa el SDK de Firebase -->
-  <script type="module">
-    // Importa las funciones necesarias de Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+<nav>
+  <a href="#">Inicio</a>
+  <a href="#">Soy Empresa</a>
+  <a href="#">Soy Rider</a>
+  <a href="#">Acerca de</a>
+  <a href="#">Contacto</a>
+</nav>
 
-    // Configuración de Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAWdvOSiXJqE56wsXH6DZJl1h-qVGod2PU",
-      authDomain: "entrega2-fe064.firebaseapp.com",
-      projectId: "entrega2-fe064",
-      storageBucket: "entrega2-fe064.firebasestorage.app",
-      messagingSenderId: "117642919240",
-      appId: "1:117642919240:web:c564bd002802b158fa877d",
-      measurementId: "G-S4PV8XDC52"
-    };
+<section class="hero">
+  <h1>Conecta con Riders en Moto y Personal Logístico</h1>
+  <p>Publica tus vacantes o solicita un rider para tu entrega urbana ¡en minutos!</p>
+  <button id="publishVacancyBtn">Publica tu Vacante</button>
+</section>
 
-    // Inicializa Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app); // Para analíticas
-    const db = getFirestore(app);  // Inicializa Firestore
+<section class="features">
+  <div class="feature">
+    <h3>Riders en Moto Disponibles</h3>
+    <p>Perfectos para entregas rápidas y urbanas. Servicio especializado en "last mile delivery".</p>
+  </div>
+  <div class="feature">
+    <h3>Reclutamiento Rápido</h3>
+    <p>Encuentra personal para tu almacén, empaque o mensajería en pocas horas.</p>
+  </div>
+  <div class="feature">
+    <h3>Pagos y Matching Inteligente</h3>
+    <p>Plataforma segura, pagos automáticos y conexión instantánea empresa-rider.</p>
+  </div>
+</section>
 
-    // Función para guardar un pedido en Firestore
-    async function saveOrder() {
-      try {
-        const docRef = await addDoc(collection(db, "orders"), {
-          customerName: "Ana Cristina",
-          orderAmount: 250,
-          status: "pendiente"
-        });
-        console.log("Pedido guardado con ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error al guardar el pedido: ", e);
-      }
-    }
+<section class="riders-section">
+  <h2>Riders Disponibles Cerca de Ti</h2>
+  <div class="riders-grid">
+    <div class="rider-card">
+      <img src="https://images.unsplash.com/photo-1604467715801-7f891d1c1e1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Rider en moto">
+      <h4>Juan Pérez</h4>
+      <p>Motor 150cc - Santo Domingo</p>
+    </div>
+    <div class="rider-card">
+      <img src="https://images.unsplash.com/photo-1616690723298-9c61e4cda8cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Rider en moto">
+      <h4>Laura González</h4>
+      <p>Scooter - Santiago</p>
+    </div>
+    <div class="rider-card">
+      <img src="https://images.unsplash.com/photo-1580631934531-0a8b09d76ea5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Rider en moto">
+      <h4>Carlos Méndez</h4>
+      <p>Motor 200cc - La Romana</p>
+    </div>
+  </div>
+</section>
 
-    // Llamar a la función de ejemplo para guardar un pedido
-    saveOrder();
-  </script>
-</body>
-</html>
+<section class="companies-section">
+  <h2>Empresas que Buscan Riders</h2>
+  <ul class="company-list">
+    <li>Restaurante RápidoYa - 5 vacantes</li>
+    <li>EcoMensajería - 3 vacantes</li>
+    <li>Speedy Express - 8 vacantes</li>
+    <li>Farmacia Uno - 2 vacantes</li>
+    <li>Pedidos Caribe - 10 vacantes</li>
+  </ul>
+</section>
 
+<section class="cta">
+  <h2>¿Listo para ser parte de Entrega2?</h2>
+  <p>Regístrate ahora y accede a cientos de oportunidades de trabajo o riders disponibles.</p>
+  <button id="startFreeBtn">Comienza Gratis</button>
+</section>
+
+<footer>
+  © 2025 Entrega2 - Todos los derechos reservados.
+</footer>
+
+<!-- Integración de Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAWdvOSiXJqE56wsXH6DZJl1h-qVGod2PU",
+    authDomain: "entrega2-fe064.firebaseapp.com",
+    projectId: "entrega2-fe064",
+    storageBucket: "entrega2-fe064.firebasestorage.app",
+    messagingSenderId: "117642919240",
+    appId: "1:117642
 
