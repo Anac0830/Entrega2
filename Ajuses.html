@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>En3ga2 - Plataforma de Repartidores y Envíos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #1E40AF;
+      --secondary: #F59E0B;
+      --success: #10B981;
+      --danger: #EF4444;
+      --light: #F3F4F6;
+      --dark: #1F2937;
+      --medium: #6B7280;
+      --light-gray: #E5E7EB;
+      --white: #FFFFFF;
+      
+      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      
+      --radius-sm: 0.25rem;
+      --radius: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Header */
+    header {
+      background-color: var(--white);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      color: var(--secondary);
+    }
+    
+    /* Navigation */
+    .nav-desktop {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    
+    .nav-link.active {
+      color: var(--primary);
+    }
+    
+    .nav-link.active:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+    }
+    
+    .nav-mobile {
+      display: none;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.625rem 1.25rem;
+      font-weight: 500;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      border: none;
+      gap: 0.5rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn-secondary {
+      background-color: var(--white);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--light);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn-success {
+      background-color: var(--success);
+      color: var(--white);
+    }
+    
+    .btn-success:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+      color: var(--white);
+    }
+    
+    .btn-danger:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn-icon {
+      padding: 0.625rem;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin: 0 auto 2.5rem;
+      opacity: 0.9;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    /* Features */
+    .features {
+      padding: 4rem 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--medium);
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--light);
+      color: var(--primary);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+    
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-description {
+      color: var(--medium);
+    }
+    
+    /* Call to Action */
+    .cta {
+      padding: 4rem 0;
+      background-color: var(--white);
+    }
+    
+    .cta-container {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: var(--radius-md);
+      padding: 3rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* How It Works */
+    .how-it-works {
+      padding: 4rem 0;
+      background-color: var(--light);
+    }
+    
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .step-number {
+      width: 3rem;
+      height: 3rem;
+      background-color: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin: 0 auto 1rem;
+    }
+    
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-description {
+      color: var(--medium);
+      font-size: 0.875rem;
+    }
+    
+    .steps-line {
+      position: absolute;
+      top: 1.5rem;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--light-gray);
+      z-index: 1;
+    }
+    
+    /* Pricing */
+    .pricing {
+      padding: 4rem 0;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .pricing-card {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .pricing-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .pricing-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    
+    .pricing-features li {
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--medium);
+    }
+    
+    .pricing-features li i {
+      color: var(--success);
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 4rem 0;
+      background-color: var(--white);
+    }
+    
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .testimonial-card {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .testimonial-content {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .author-avatar {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .author-info p {
+      color: var(--medium);
+      font-size: 0.875rem;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark);
+      color: #ccc;
+      padding: 3rem 0 1.5rem;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-title {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-links a {
+      color: var(--light-gray);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    
+    .footer-links a:hover {
+      color: var(--white);
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      text-align: center;
+      color: var(--light-gray);
+      font-size: 0.75rem;
+    }
+    
+    /* Dashboard Styles */
+    .dashboard {
+      display: none;
+      padding: 2rem 0;
+    }
+    
+    .dashboard.active {
+      display: block;
+    }
+    
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: var(--medium);
+      font-size: 0.875rem;
+    }
+    
+    .chart-container {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .table-container {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    th {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .rating .filled {
+      color: var(--secondary);
+    }
+    
+    .rating .empty {
+      color: var(--light-gray);
+    }
+    
+    /* Modal - Versión mejorada */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-overlay:target {
+      display: flex;
+    }
+    
+    .modal-content {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: modalFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--light-gray);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--medium);
+      text-decoration: none;
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .modal-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--light-gray);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    
+    /* Forms */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    /* Success Message */
+    .success-message {
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .success-icon {
+      font-size: 3rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+    }
+    
+    /* Invoice Styles */
+    .invoice {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow);
+    }
+    
+    .invoice-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    
+    .invoice-details {
+      margin-bottom: 2rem;
+    }
+    
+    .invoice-table {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    
+    .invoice-table th {
+      background: var(--light);
+      padding: 0.75rem;
+      text-align: left;
+    }
+    
+    .invoice-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .invoice-totals {
+      text-align: right;
+      margin-top: 1rem;
+    }
+    
+    .payment-methods {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .payment-method {
+      flex: 1;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius);
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .payment-method:hover {
+      border-color: var(--primary);
+    }
+    
+    .payment-method.active {
+      border-color: var(--primary);
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .steps {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      
+      .step {
+        text-align: left;
+        display: flex;
+        gap: 1rem;
+      }
+      
+      .step-number {
+        margin: 0;
+        flex-shrink: 0;
+      }
+      
+      .steps-line {
+        display: none;
+      }
+      
+      .nav-desktop {
+        display: none;
+      }
+      
+      .nav-mobile {
+        display: block;
+      }
+      
+      .modal-content {
+        margin: 1rem;
+        max-height: 80vh;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .payment-methods {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-bolt logo-icon" style="color: var(--secondary);"></i>
+        En3ga2
+      </a>
+      
+      <nav class="nav-desktop">
+        <a href="#riders" class="nav-link">Para Riders</a>
+        <a href="#empresas" class="nav-link">Para Empresas</a>
+        <a href="#envios" class="nav-link">Envíos</a>
+        <a href="#precios" class="nav-link">Precios</a>
+        <a href="#login" class="nav-link">Iniciar sesión</a>
+      </nav>
+      
+      <div class="nav-mobile">
+        <a href="#mobile-menu" class="btn btn-icon">
+          <i class="fas fa-bars"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Contenido principal -->
+  <main id="main-content">
+    <section class="hero">
+      <div class="container">
+        <h1 class="hero-title">Conectamos repartidores con oportunidades de trabajo</h1>
+        <p class="hero-subtitle">La plataforma líder para envíos bajo demanda y empleo logístico en República Dominicana</p>
+        <div class="hero-buttons">
+          <a href="#register-rider" class="btn btn-primary">
+            <i class="fas fa-motorcycle"></i> Sé un repartidor
+          </a>
+          <a href="#register-business" class="btn btn-secondary">
+            <i class="fas fa-building"></i> Soy una empresa
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features" id="riders">
+      <div class="container">
+        <h2 class="section-title">Sé parte de En3ga2</h2>
+        <p class="section-subtitle">Regístrate gratis en nuestra plataforma, márcate disponible y empieza a recibir entregas en línea.</p>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <h3 class="feature-title">Registro fácil</h3>
+            <p class="feature-description">Completa tu perfil en minutos y comienza a recibir ofertas de trabajo inmediatamente.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3 class="feature-title">Flexibilidad total</h3>
+            <p class="feature-description">Tú decides cuándo trabajar. Activa tu disponibilidad cuando quieras recibir entregas.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <h3 class="feature-title">Diversas oportunidades</h3>
+            <p class="feature-description">Trabaja por entregas individuales o postúlate a empleos fijos con nuestras empresas aliadas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="how-it-works">
+      <div class="container">
+        <h2 class="section-title">Cómo funciona para repartidores</h2>
+        <p class="section-subtitle">Sigue estos simples pasos para comenzar a ganar dinero con En3ga2</p>
+        
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3 class="step-title">Regístrate</h3>
+              <p class="step-description">Crea tu cuenta y completa tu perfil con tus datos y tipo de vehículo.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3 class="step-title">Activa tu disponibilidad</h3>
+              <p class="step-description">Márcate como disponible cuando quieras recibir entregas.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3 class="step-title">Recibe y completa entregas</h3>
+              <p class="step-description">Acepta entregas que se ajusten a tu ubicación y preferencias.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3 class="step-title">Recibe tus pagos</h3>
+              <p class="step-description">Cobra semanalmente tus ganancias directamente en tu cuenta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features" id="empresas" style="background-color: var(--light);">
+      <div class="container">
+        <h2 class="section-title">¿Buscas repartidores confiables?</h2>
+        <p class="section-subtitle">Publica en En3ga2 y contrata riders en bici, moto, carro u otros vehículos.</p>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="feature-title">Contratación flexible</h3>
+            <p class="feature-description">Elige cómo pagar: por hora, semana, quincena o mes según tus necesidades.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-network-wired"></i>
+            </div>
+            <h3 class="feature-title">Escalable</h3>
+            <p class="feature-description">¿Necesitas cubrir 1 vacante o 100? Nosotros te ayudamos a encontrar los riders que necesites.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3 class="feature-title">Rápido y eficiente</h3>
+            <p class="feature-description">Riders verificados listos para trabajar. Contratación rápida y sin complicaciones.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta" id="envios">
+      <div class="container">
+        <div class="cta-container">
+          <h2 class="cta-title">¿Necesitas apoyo con tus envíos?</h2>
+          <p style="margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            En En3ga2 te ofrecemos dos modalidades flexibles para adaptarnos a tus necesidades logísticas.
+          </p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <div style="background-color: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius);">
+              <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-plug"></i> Integración de sistemas
+              </h3>
+              <p style="font-size: 0.875rem;">
+                Conecta tu plataforma con la nuestra. Durante picos de alta demanda, transfiere automáticamente tus envíos a nuestra red de repartidores.
+              </p>
+            </div>
+            
+            <div style="background-color: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius);">
+              <h3 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-upload"></i> Publicación en vivo
+              </h3>
+              <p style="font-size: 0.875rem;">
+                Publica envíos manualmente según tu necesidad. Riders activos podrán aceptar el trabajo en función del vehículo requerido, la distancia y el tiempo de entrega.
+              </p>
+            </div>
+          </div>
+          
+          <a href="#register-business" class="btn btn-success">
+            <i class="fas fa-building"></i> Regístrate como empresa
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <section class="pricing" id="precios">
+      <div class="container">
+        <h2 class="section-title">Planes para cada necesidad</h2>
+        <p class="section-subtitle">Elige el plan que mejor se adapte a tu volumen de operaciones</p>
+        
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <h3 class="pricing-title">Básico</h3>
+            <div class="pricing-price">RD$999 <small>/mes</small></div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> Hasta 50 envíos/mes</li>
+              <li><i class="fas fa-check"></i> 5 vacantes activas</li>
+              <li><i class="fas fa-check"></i> Soporte por email</li>
+              <li><i class="fas fa-check"></i> Dashboard básico</li>
+              <li><i class="fas fa-check"></i> 1 mes de Spotify Premium</li>
+            </ul>
+            <a href="#register-business" class="btn btn-secondary">Empezar</a>
+          </div>
+          
+          <div class="pricing-card" style="border: 2px solid var(--primary);">
+            <h3 class="pricing-title">Estándar</h3>
+            <div class="pricing-price">RD$1,999 <small>/mes</small></div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> Hasta 200 envíos/mes</li>
+              <li><i class="fas fa-check"></i> 20 vacantes activas</li>
+              <li><i class="fas fa-check"></i> Soporte prioritario</li>
+              <li><i class="fas fa-check"></i> Dashboard avanzado</li>
+              <li><i class="fas fa-check"></i> 3 meses de Spotify Premium</li>
+              <li><i class="fas fa-check"></i> Integración API básica</li>
+            </ul>
+            <a href="#register-business" class="btn btn-primary">Empezar</a>
+          </div>
+          
+          <div class="pricing-card">
+            <h3 class="pricing-title">Empresa</h3>
+            <div class="pricing-price">RD$2,999 <small>/mes</small></div>
+            <ul class="pricing-features">
+              <li><i class="fas fa-check"></i> Envíos ilimitados</li>
+              <li><i class="fas fa-check"></i> Vacantes ilimitadas</li>
+              <li><i class="fas fa-check"></i> Soporte 24/7</li>
+              <li><i class="fas fa-check"></i> Dashboard premium</li>
+              <li><i class="fas fa-check"></i> 6 meses de Spotify Premium</li>
+              <li><i class="fas fa-check"></i> API completa</li>
+              <li><i class="fas fa-check"></i> Reportes personalizados</li>
+            </ul>
+            <a href="#contact-sales" class="btn btn-secondary">Contactar ventas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="testimonials">
+      <div class="container">
+        <h2 class="section-title">Lo que dicen nuestros usuarios</h2>
+        <p class="section-subtitle">Riders y empresas que ya usan nuestra plataforma</p>
+        
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-content">"Desde que me registré en En3ga2 puedo elegir cuándo trabajar y los ingresos son mucho mejores que con otras plataformas."</p>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Méndez" class="author-avatar">
+              <div class="author-info">
+                <h4>Carlos Méndez</h4>
+                <p>Repartidor desde 2023</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial-card">
+            <p class="testimonial-content">"La integración con nuestro e-commerce fue muy sencilla. Ahora podemos manejar picos de demanda sin problemas."</p>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="María Rodríguez" class="author-avatar">
+              <div class="author-info">
+                <h4>María Rodríguez</h4>
+                <p>CEO, TiendaNatural</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial-card">
+            <p class="testimonial-content">"Encontramos riders confiables en horas, no días. Ha sido un cambio radical para nuestra operación logística."</p>
+            <div class="testimonial-author">
+              <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Luis Vargas" class="author-avatar">
+              <div class="author-info">
+                <h4>Luis Vargas</h4>
+                <p>Gerente de Logística</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Dashboard Empresa -->
+  <div id="empresa-dashboard" class="dashboard">
+    <div class="container">
+      <div class="dashboard-header">
+        <h2>Panel de Empresa</h2>
+        <div>
+          <span style="margin-right: 1rem;">Bienvenido, <strong>TiendaNatural</strong></span>
+          <a href="#" class="btn btn-secondary btn-icon" onclick="hideDashboard('empresa-dashboard'); return false;">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+          </a>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">1,248</div>
+          <div class="stat-label">Envíos realizados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4.7<span style="font-size: 1rem; color: var(--secondary);">/5</span></div>
+          <div class="stat-label">Calificación promedio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">38 min</div>
+          <div class="stat-label">Tiempo promedio de entrega</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">RD$249,600</div>
+          <div class="stat-label">Total ahorrado en logística</div>
+        </div>
+      </div>
+      
+      <div class="chart-container">
+        <h3 style="margin-bottom: 1rem;">Envíos mensuales</h3>
+        <canvas id="enviosChart" height="300"></canvas>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="chart-container">
+          <h3 style="margin-bottom: 1rem;">Métodos de pago</h3>
+          <canvas id="metodosPagoChart" height="250"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3 style="margin-bottom: 1rem;">Tiempos de entrega</h3>
+          <canvas id="tiemposEntregaChart" height="250"></canvas>
+        </div>
+      </div>
+      
+      <div class="table-container">
+        <h3 style="margin-bottom: 1rem;">Vacantes publicadas</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Puesto</th>
+              <th>Tipo</th>
+              <th>Publicado</th>
+              <th>Postulantes</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Repartidor en Moto</td>
+              <td>Tiempo completo</td>
+              <td>15/10/2023</td>
+              <td>24</td>
+              <td><span style="color: var(--success);">Activa</span></td>
+            </tr>
+            <tr>
+              <td>Repartidor en Bicicleta</td>
+              <td>Medio tiempo</td>
+              <td>10/10/2023</td>
+              <td>12</td>
+              <td><span style="color: var(--success);">Activa</span></td>
+            </tr>
+            <tr>
+              <td>Conductor de Vehículo</td>
+              <td>Por horas</td>
+              <td>05/10/2023</td>
+              <td>8</td>
+              <td><span style="color: var(--danger);">Cerrada</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="table-container" style="margin-top: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Últimos envíos</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Teléfono</th>
+              <th>Envíos</th>
+              <th>Calificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>María García</td>
+              <td>809-555-1234</td>
+              <td>42</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Juan Pérez</td>
+              <td>829-555-5678</td>
+              <td>28</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star empty"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Ana Rodríguez</td>
+              <td>849-555-9012</td>
+              <td>35</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Carlos Martínez</td>
+              <td>809-555-3456</td>
+              <td>19</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star empty"></i>
+                  <i class="fas fa-star empty"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="#nuevo-envio" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Crear nuevo envío
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dashboard Rider -->
+  <div id="rider-dashboard" class="dashboard">
+    <div class="container">
+      <div class="dashboard-header">
+        <h2>Panel de Repartidor</h2>
+        <div>
+          <span style="margin-right: 1rem;">Bienvenido, <strong>Carlos Méndez</strong></span>
+          <a href="#" class="btn btn-secondary btn-icon" onclick="hideDashboard('rider-dashboard'); return false;">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+          </a>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">RD$24,850</div>
+          <div class="stat-label">Ganancias totales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">128</div>
+          <div class="stat-label">Envíos completados</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4.8<span style="font-size: 1rem; color: var(--secondary);">/5</span></div>
+          <div class="stat-label">Calificación promedio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">RD$3,250</div>
+          <div class="stat-label">Propinas recibidas</div>
+        </div>
+      </div>
+      
+      <div class="chart-container">
+        <h3 style="margin-bottom: 1rem;">Ganancias semanales</h3>
+        <canvas id="gananciasChart" height="300"></canvas>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-value">Moto</div>
+          <div class="stat-label">Vehículo registrado</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Activo</div>
+          <div class="stat-label">Estado actual</div>
+        </div>
+      </div>
+      
+      <div class="table-container">
+        <h3 style="margin-bottom: 1rem;">Últimos envíos</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Ganancia</th>
+              <th>Propina</th>
+              <th>Calificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>20/10/2023</td>
+              <td>Restaurante Sabores</td>
+              <td>RD$350</td>
+              <td>RD$50</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>19/10/2023</td>
+              <td>Farmacia Salud</td>
+              <td>RD$280</td>
+              <td>RD$30</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star empty"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>18/10/2023</td>
+              <td>Supermercado Económico</td>
+              <td>RD$420</td>
+              <td>RD$70</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>17/10/2023</td>
+              <td>Tienda Natural</td>
+              <td>RD$310</td>
+              <td>RD$40</td>
+              <td>
+                <div class="rating">
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star filled"></i>
+                  <i class="fas fa-star empty"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div style="text-align: center; margin-top: 2rem;">
+        <button class="btn btn-success" onclick="document.getElementById('main-content').style.display='block'; document.getElementById('rider-dashboard').style.display='none';">
+          <i class="fas fa-home"></i> Volver al inicio
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#" class="logo" style="color: white; margin-bottom: 1rem; display: inline-block;">
+            <i class="fas fa-bolt"></i> En3ga2
+          </a>
+          <p style="color: var(--light-gray); margin-bottom: 1.5rem; font-size: 0.875rem;">
+            La plataforma líder para envíos bajo demanda y empleo logístico en República Dominicana.
+          </p>
+        </div>
+        
+        <div>
+          <h3 class="footer-title">Para Riders</h3>
+          <ul class="footer-links">
+            <li><a href="#riders">Cómo funciona</a></li>
+            <li><a href="#register-rider">Registrarse</a></li>
+            <li><a href="#">Preguntas frecuentes</a></li>
+            <li><a href="#">App para repartidores</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="footer-title">Para Empresas</h3>
+          <ul class="footer-links">
+            <li><a href="#empresas">Solicitar demo</a></li>
+            <li><a href="#precios">Planes y precios</a></li>
+            <li><a href="#envios">Integración API</a></li>
+            <li><a href="#">Casos de éxito</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="footer-title">Contacto</h3>
+          <ul class="footer-links">
+            <li><a href="#">Soporte técnico</a></li>
+            <li><a href="#">WhatsApp Business</a></li>
+            <li><a href="#">contacto@en3ga2.com</a></li>
+            <li><a href="#">809-555-5555</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 En3ga2. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Modal de Registro Rider -->
+  <div id="register-rider" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Registro de Repartidor</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="rider-form" action="#registered-rider" method="get">
+          <div class="form-group">
+            <label class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" placeholder="Juan Pérez" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" placeholder="juan@ejemplo.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" placeholder="809-555-5555" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de vehículo</label>
+            <select class="form-control" required>
+              <option value="">Seleccione...</option>
+              <option>Moto</option>
+              <option>Bicicleta</option>
+              <option>Carro</option>
+              <option>Vehículo de carga</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" placeholder="••••••••" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-motorcycle"></i> Registrarme
+        </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Registro Empresa -->
+  <div id="register-business" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Registro de Empresa</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="business-form" action="#registered-business" method="get">
+          <div class="form-group">
+            <label class="form-label">Nombre de la empresa</label>
+            <input type="text" class="form-control" placeholder="Mi Empresa SRL" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" placeholder="contacto@empresa.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" placeholder="809-555-5555" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de negocio</label>
+            <select class="form-control" required>
+              <option value="">Seleccione...</option>
+              <option>Restaurante</option>
+              <option>Retail</option>
+              <option>Farmacia</option>
+              <option>Servicios</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" placeholder="••••••••" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-building"></i> Registrarme
+        </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Login -->
+  <div id="login" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Iniciar Sesión</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" placeholder="••••••••" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de cuenta</label>
+            <select class="form-control" id="account-type" required>
+              <option value="">Seleccione...</option>
+              <option value="empresa">Empresa</option>
+              <option value="rider">Repartidor</option>
+            </select>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="button" class="btn btn-primary" onclick="login()">Iniciar sesión</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Contacto con Ventas -->
+  <div id="contact-sales" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Contacto con Ventas</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="sales-form" action="#contacted-sales" method="get">
+          <div class="form-group">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Empresa</label>
+            <input type="text" class="form-control" placeholder="Nombre de tu empresa" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" placeholder="809-555-5555" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensaje</label>
+            <textarea class="form-control" rows="4" placeholder="Cuéntanos sobre tus necesidades" required></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Nuevo Envío -->
+  <div id="nuevo-envio" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nuevo Envío</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="envio-form" action="#factura-envio" method="get">
+          <div class="form-group">
+            <label class="form-label">Nombre del destinatario</label>
+            <input type="text" class="form-control" placeholder="Nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono del destinatario</label>
+            <input type="tel" class="form-control" placeholder="809-555-5555" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dirección de recogida</label>
+            <input type="text" class="form-control" placeholder="Dirección completa" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dirección de entrega</label>
+            <input type="text" class="form-control" placeholder="Dirección completa" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo de producto</label>
+            <select class="form-control" required>
+              <option value="">Seleccione...</option>
+              <option>Comida</option>
+              <option>Farmacéuticos</option>
+              <option>Documentos</option>
+              <option>Electrónicos</option>
+              <option>Ropa</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descripción del paquete</label>
+            <textarea class="form-control" rows="3" placeholder="Describa el contenido del envío"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Vehículo requerido</label>
+            <select class="form-control" required>
+              <option value="">Seleccione...</option>
+              <option>Moto</option>
+              <option>Bicicleta</option>
+              <option>Carro</option>
+              <option>Vehículo de carga</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha y hora de recogida</label>
+            <input type="datetime-local" class="form-control" required>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Calcular costo</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Factura -->
+  <div id="factura-envio" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Factura de Envío</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <div class="invoice">
+          <div class="invoice-header">
+            <div>
+              <h3>En3ga2</h3>
+              <p>Plataforma de envíos bajo demanda</p>
+            </div>
+            <div style="text-align: right;">
+              <p><strong>Factura #ENV-2023-00142</strong></p>
+              <p>Fecha: 21/10/2023</p>
+            </div>
+          </div>
+          
+          <div class="invoice-details" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+              <h4>De:</h4>
+              <p><strong>TiendaNatural</strong></p>
+              <p>Calle Principal #123, Santo Domingo</p>
+              <p>Tel: 809-555-1234</p>
+            </div>
+            <div>
+              <h4>Para:</h4>
+              <p><strong id="dest-name">María García</strong></p>
+              <p id="dest-address">Av. Independencia #456, Santo Domingo</p>
+              <p id="dest-phone">Tel: 809-555-5678</p>
+            </div>
+          </div>
+          
+          <table class="invoice-table">
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Envío estándar (5-10 km)</td>
+                <td>1</td>
+                <td>RD$250</td>
+                <td>RD$250</td>
+              </tr>
+              <tr>
+                <td>Seguro básico</td>
+                <td>1</td>
+                <td>RD$50</td>
+                <td>RD$50</td>
+              </tr>
+              <tr>
+                <td>Prioridad (entrega en 1 hora)</td>
+                <td>1</td>
+                <td>RD$150</td>
+                <td>RD$150</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="invoice-totals">
+            <p><strong>Subtotal:</strong> RD$450</p>
+            <p><strong>ITBIS (18%):</strong> RD$81</p>
+            <p><strong>Total:</strong> RD$531</p>
+          </div>
+          
+          <h4 style="margin-top: 2rem;">Método de pago</h4>
+          <div class="payment-methods">
+            <div class="payment-method" onclick="selectPayment(this)">
+              <i class="fas fa-credit-card" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+              <h4>Tarjeta de crédito</h4>
+              <p>Pago seguro con tarjeta</p>
+            </div>
+            <div class="payment-method" onclick="selectPayment(this)">
+              <i class="fas fa-exchange-alt" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+              <h4>Transferencia</h4>
+              <p>Transferencia bancaria</p>
+            </div>
+          </div>
+          
+          <div id="credit-card-form" style="display: none; margin-top: 1.5rem;">
+            <h4>Información de tarjeta</h4>
+            <div class="form-group">
+              <label class="form-label">Número de tarjeta</label>
+              <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label">Fecha de expiración</label>
+                <input type="text" class="form-control" placeholder="MM/AA">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV</label>
+                <input type="text" class="form-control" placeholder="123">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre en la tarjeta</label>
+              <input type="text" class="form-control" placeholder="Nombre completo">
+            </div>
+          </div>
+          
+          <div id="transfer-form" style="display: none; margin-top: 1.5rem;">
+            <h4>Información para transferencia</h4>
+            <p>Banco: Banco Popular Dominicano</p>
+            <p>Cuenta: 123-456789-1</p>
+            <p>A nombre de: En3ga2 SRL</p>
+            <p>Enviar comprobante a: pagos@en3ga2.com</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-secondary">Cancelar</a>
+        <button type="button" class="btn btn-primary" onclick="processPayment()">Confirmar pago</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Menú Móvil -->
+  <div id="mobile-menu" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Menú</h3>
+        <a href="#" class="modal-close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <nav style="display: flex; flex-direction: column; gap: 1rem;">
+          <a href="#riders" class="btn btn-secondary" style="text-align: left;">Para Riders</a>
+          <a href="#empresas" class="btn btn-secondary" style="text-align: left;">Para Empresas</a>
+          <a href="#envios" class="btn btn-secondary" style="text-align: left;">Envíos</a>
+          <a href="#precios" class="btn btn-secondary" style="text-align: left;">Precios</a>
+          <a href="#login" class="btn btn-primary" style="text-align: left;">Iniciar sesión</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mensajes de Confirmación -->
+  <div id="registered-rider" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-message">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h3>¡Registro Exitoso!</h3>
+          <p>Gracias por registrarte como repartidor. Te hemos enviado un correo de confirmación.</p>
+          <button class="btn btn-primary" onclick="showDashboard('rider-dashboard')">Ver mi panel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="registered-business" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-message">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h3>¡Registro Exitoso!</h3>
+          <p>Gracias por registrar tu empresa. Nuestro equipo se pondrá en contacto contigo.</p>
+          <button class="btn btn-primary" onclick="showDashboard('empresa-dashboard')">Ver mi panel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="logged-in" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-message">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h3>¡Bienvenido!</h3>
+          <p>Has iniciado sesión correctamente en En3ga2.</p>
+          <button class="btn btn-primary" id="login-success-btn">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="contacted-sales" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-message">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h3>¡Solicitud Enviada!</h3>
+          <p>Nuestro equipo de ventas se pondrá en contacto contigo en las próximas 24 horas.</p>
+          <a href="#" class="btn btn-primary">Aceptar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="payment-success" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-message">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h3>¡Pago Completado!</h3>
+          <p>Tu envío ha sido programado. Un repartidor será asignado pronto.</p>
+          <p>Número de seguimiento: <strong>EN3GA-2023-142</strong></p>
+          <a href="#" class="btn btn-primary">Aceptar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript -->
+  <script>
+    // Mostrar dashboard según tipo de usuario
+    function showDashboard(dashboardId) {
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById(dashboardId).style.display = 'block';
+      window.location.href = '#';
+      initializeCharts();
+    }
+    
+    function hideDashboard(dashboardId) {
+      document.getElementById(dashboardId).style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      window.location.href = '#';
+    }
+    
+    // Iniciar sesión
+    function login() {
+      const accountType = document.getElementById('account-type').value;
+      if (!accountType) {
+        alert('Por favor selecciona un tipo de cuenta');
+        return;
+      }
+      
+      window.location.href = '#logged-in';
+      
+      // Configurar el botón de éxito según el tipo de cuenta
+      document.getElementById('login-success-btn').onclick = function() {
+        if (accountType === 'empresa') {
+          showDashboard('empresa-dashboard');
+        } else {
+          showDashboard('rider-dashboard');
+        }
+      };
+    }
+    
+    // Seleccionar método de pago
+    function selectPayment(element) {
+      document.querySelectorAll('.payment-method').forEach(el => {
+        el.classList.remove('active');
+      });
+      element.classList.add('active');
+      
+      document.getElementById('credit-card-form').style.display = 'none';
+      document.getElementById('transfer-form').style.display = 'none';
+      
+      if (element.querySelector('h4').textContent === 'Tarjeta de crédito') {
+        document.getElementById('credit-card-form').style.display = 'block';
+      } else {
+        document.getElementById('transfer-form').style.display = 'block';
+      }
+    }
+    
+    // Procesar pago
+    function processPayment() {
+      window.location.href = '#payment-success';
+    }
+    
+    // Inicializar gráficos
+    function initializeCharts() {
+      // Gráfico de envíos mensuales (Empresa)
+      const enviosCtx = document.getElementById('enviosChart')?.getContext('2d');
+      if (enviosCtx) {
+        new Chart(enviosCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+            datasets: [{
+              label: 'Envíos realizados',
+              data: [85, 92, 78, 105, 120, 98, 115, 132, 148, 124],
+              backgroundColor: 'rgba(37, 99, 235, 0.7)',
+              borderColor: 'rgba(37, 99, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+      
+      // Gráfico de métodos de pago (Empresa)
+      const metodosPagoCtx = document.getElementById('metodosPagoChart')?.getContext('2d');
+      if (metodosPagoCtx) {
+        new Chart(metodosPagoCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Efectivo', 'Tarjeta', 'Transferencia'],
+            datasets: [{
+              data: [35, 50, 15],
+              backgroundColor: [
+                'rgba(16, 185, 129, 0.7)',
+                'rgba(37, 99, 235, 0.7)',
+                'rgba(245, 158, 11, 0.7)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true
+          }
+        });
+      }
+      
+      // Gráfico de tiempos de entrega (Empresa)
+      const tiemposEntregaCtx = document.getElementById('tiemposEntregaChart')?.getContext('2d');
+      if (tiemposEntregaCtx) {
+        new Chart(tiemposEntregaCtx, {
+          type: 'line',
+          data: {
+            labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+            datasets: [{
+              label: 'Minutos promedio',
+              data: [42, 38, 35, 40, 45, 50, 48],
+              backgroundColor: 'rgba(245, 158, 11, 0.2)',
+              borderColor: 'rgba(245, 158, 11, 1)',
+              borderWidth: 2,
+              tension: 0.4,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: false,
+                min: 30
+              }
+            }
+          }
+        });
+      }
+      
+      // Gráfico de ganancias (Rider)
+      const gananciasCtx = document.getElementById('gananciasChart')?.getContext('2d');
+      if (gananciasCtx) {
+        new Chart(gananciasCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+            datasets: [{
+              label: 'Ganancias por semana',
+              data: [5200, 5800, 6200, 7650],
+              backgroundColor: 'rgba(16, 185, 129, 0.7)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    }
+    
+    // Cerrar modales al hacer clic en el overlay
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if(e.target === this) {
+          window.location.href = '#';
+        }
+      });
+    });
+    
+    // Actualizar datos de factura con información del formulario
+    document.getElementById('envio-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      
+      document.getElementById('dest-name').textContent = formData.get('Nombre del destinatario');
+      document.getElementById('dest-address').textContent = formData.get('Dirección de entrega');
+      document.getElementById('dest-phone').textContent = formData.get('Teléfono del destinatario');
+      
+      window.location.href = '#factura-envio';
+    });
+    
+    // Inicializar gráficos cuando se muestre el dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.hash === '#empresa-dashboard') {
+        showDashboard('empresa-dashboard');
+      } else if (window.location.hash === '#rider-dashboard') {
+        showDashboard('rider-dashboard');
+      }
+    });
+  </script>
+</body>
+</html>
